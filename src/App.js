@@ -31,9 +31,7 @@ function App() {
 
 	const playSound = () => {
 		if (isPlaying) {
-			audioRef.current.pause();
-			videoRef.current.pause();
-			setIsPlaying(false);
+			stopSound();
 		} else {
 			audioRef.current.play();
 			videoRef.current.play();
@@ -41,7 +39,21 @@ function App() {
 		}
 	}
 
+	const stopSound = () => {
+		audioRef.current.pause();
+		videoRef.current.pause();
+		setIsPlaying(false);
+	}
+
+	const resetSound = useCallback(() => {
+		audioRef.current.currentTime = 0;
+		videoRef.current.currentTime = 0;
+		stopSound();
+	}, [])
+
+
 	const setWeather = (audio, video, weather) => {
+		if (activeWeather === weather) return;
 		setIsPlaying(false);
 		setActiveWeather(weather)
 		setActiveAudio(audio);
@@ -67,8 +79,9 @@ function App() {
 
 		if (currentTime >= fakeDuration) {
 			// TODO: Останавливаем воспроизведение (или след аудио или repeat)
+			resetSound()
 		}
-	}, [trackRef, fakeDuration, outlineLength])
+	}, [trackRef, fakeDuration, outlineLength, resetSound])
 
 	useEffect(() => {
 		let length = trackRef.current.getTotalLength()
