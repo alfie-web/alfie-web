@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import classNames from 'classnames';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import './App.sass';
 
+import { playerActions } from './redux/actions';
 import { Player, Weather } from './components';
 
 // TODO: Сделать приложение PWA
@@ -60,49 +61,51 @@ const WEATCHERS = [
 ]
 
 // TODO: Вынести плеер с audio и video в отдельный компонент
-function App() {
+function App({ isPlaying, isLooped, setIsPlaying, setIsLooped }) {
 	// TODO: Подключить redux и хранить основные данные в сторе (Например текущее время, когда кликаем на паузу) - хотя нужно ли под вопросом
 
 	// TODO: Попробовать хранить activeAudio, activeVideo, activeWeather в localStorage
 	const [activeAudio, setActiveAudio] = useState(WEATCHERS[0].audio);
 	const [activeVideo, setActiveVideo] = useState(WEATCHERS[0].video);
 	const [activeWeather, setActiveWeather] = useState(WEATCHERS[0]._id);
-	const [playerState, setPlayerState] = useState({
-		isPlaying: false, 
-		isLooped: false
-	});
+	// const [playerState, setPlayerState] = useState({
+	// 	isPlaying: false, 
+	// 	isLooped: false
+	// });
 	// const [isPlaying, setIsPlaying] = useState(false);
 	// const [isLooped, setIsLooped] = useState(false);
 
 	
-	const changePlayerState = (newState) => {
-		console.log({
-			...playerState,
-			...newState
-		})
-		setPlayerState({
-			...playerState,
-			...newState
-		})
-	}
+	// const changePlayerState = (newState) => {
+	// 	console.log({
+	// 		...playerState,
+	// 		...newState
+	// 	})
+	// 	setPlayerState({
+	// 		...playerState,
+	// 		...newState
+	// 	})
+	// }
 	
 	const setWeather = (audio, video, weatherId) => {
 		if (activeWeather === weatherId) return;
-		// setIsPlaying(false);
-		changePlayerState({ isPlaying: false })
+	
+		// changePlayerState({ isPlaying: false })
+		setIsPlaying(false);
+
 		setActiveWeather(weatherId)
 		setActiveAudio(audio);
 		setActiveVideo(video);
 	}
 
 	
-	// console.log(isLooped)
+	console.log('Родитель обновился')
 
 	const setLoop = () => {
-		// setIsLooped(!isLooped)
-		changePlayerState({
-			isLooped: !playerState.isLooped
-		})
+		setIsLooped(!isLooped)
+		// changePlayerState({
+		// 	isLooped: !playerState.isLooped
+		// })
 	}
 
 	// В чём проблема с isLooped - а в том что когда мы нажимаем на кнопку play - перерисовывается родитель, а следовательно и isLooped сбрасывается
@@ -116,13 +119,16 @@ function App() {
 			<Player 
 				activeAudio={activeAudio}
 				activeVideo={activeVideo}
-				// isPlaying={isPlaying}
-				// setIsPlaying={setIsPlaying}
 				// isLooped={isLooped}
 				// setLoop={setLoop}
-				playerState={playerState}
+				// playerState={playerState}
+				// isPlaying={isPlaying}
+				
+				setIsPlaying={setIsPlaying}
+				isPlaying={isPlaying}
+				isLooped={isLooped}
 				setLoop={setLoop}
-				changePlayerState={changePlayerState}
+				// changePlayerState={changePlayerState}
 			/>
 			
 
@@ -175,7 +181,10 @@ function App() {
 	);
 }
 
-export default App;
+export default connect(
+	({ player }) => ({ isPlaying: player.isPlaying, isLooped: player.isLooped }),
+	playerActions
+)(App);
 
 
 

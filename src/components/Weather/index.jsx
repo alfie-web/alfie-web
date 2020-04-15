@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import './Weather.sass';
+
 export default function Weather({ item, activeWeather, setWeather }) {
 	const { title, icon, audio, video, _id } = item;
 	return (

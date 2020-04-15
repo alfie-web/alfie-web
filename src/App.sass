@@ -113,55 +113,23 @@
 
 	&__weather
 		display: flex
+		flex-wrap: wrap
+		justify-content: center
 		align-items: center
 		bottom: 60px
 
 		.Button
-			margin-right: 50px
-			&:last-child
-				margin-right: 0
+			margin: 30px 25px 0
 
 
 
 
 
-
-.Button
-	$button: &
-	display: flex
-	align-items: center
-	color: rgba(255, 255, 255, .2)
-	font: 20px 'CirceRoundedLight'
-	letter-spacing: .5px
-	padding: 0
-	outline: none
-	border: none
-	background: none
-	cursor: pointer
-	transition: color .2s
-
-	img
-		width: 20px
-		height: auto
-		opacity: .2
-		transition: opacity .2s
-
-	&__icon, img
-		margin-right: 11px
-
-	svg
-		width: 20px
-		height: auto
-		fill: rgba(255, 255, 255, .2)
-		transition: fill .2s
-
-
-	&--active, &:hover
-		color: white
-		svg
-			fill: white
-
-		img
-			opacity: 1
-
+@media only screen and (max-width : 768px)
+	.App
+		&__controls
+			right: 40px
+		
+		&__times
+			left: 40px
 	
