@@ -12,7 +12,8 @@ const WEATCHERS = [
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
-		audio: require('./assets/sounds/rain.mp3'),
+		// audio: require('./assets/sounds/rain.mp3'),
+		audio: 'https://zvukipro.com/uploads/files/2018-12/1544510652_fire-general_fyhulvvd.mp3',
 		video: require('./assets/video/rain.mp4')
 	},
 	{

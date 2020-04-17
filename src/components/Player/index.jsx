@@ -1,6 +1,7 @@
 import React, { Fragment, useState, createRef, useEffect } from 'react';
 import classNames from 'classnames';
 
+const progressRef = createRef();
 const trackRef = createRef();
 const audioRef = createRef();
 const videoRef = createRef();
@@ -11,6 +12,7 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 	const [fakeDuration, setFakeDuration] = useState(600);
 	const [isEnded, setIsEnded] = useState(false);
 	const [outlineLength, setOutlineLength] = useState(null);
+	const [progressLength, setProgressLength] = useState(null);
 	// console.log(isLooped)
 
 	const resetTime = () => {
@@ -35,8 +37,11 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 
 	const playSound = () => {
 		setIsPlaying(true);
-		audioRef.current.play();
-		videoRef.current.play();
+		if (audioRef.current.readyState !== 0) {
+			// audioRef.current.load();
+			audioRef.current.play();
+			videoRef.current.play();
+		}
 	}
 
 	const playPauseSound = () => {
@@ -81,6 +86,16 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 		}
 	}
 
+	const onProgress = (e) => {
+		var loadedTime = e.target.buffered.end(0);
+		console.log(loadedTime);
+	
+		let progress = progressLength - (loadedTime / fakeDuration) * progressLength;
+		progressRef.current.style.strokeDashoffset = progress;
+			// cur = ((this.duration + load) * 100 / this.duration) - 100;
+			// self._player._ui.loadLine.style.width = cur + '%';
+	}
+
 	const handleHotKeys = (e) => {
 		e.preventDefault();
 		// console.log(e.keyCode)
@@ -107,13 +122,21 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 		}
 	}
 
-	// устанавливаю ширину bar-а изначально
+	const checkCanPlay = () => {
+		console.log('Can Play');
+		if (isPlaying) playSound();
+	}
+
+	// устанавливаю ширину bar-а изначально (Нужно зарефакторить, так как , хотяя что рефакторить?)
 	useEffect(() => {
 		let length = trackRef.current.getTotalLength()
 		setOutlineLength(length);
+		setProgressLength(length);
 		trackRef.current.style.strokeDasharray = length;
 		trackRef.current.style.strokeDashoffset = length;
-	}, [setOutlineLength])
+		progressRef.current.style.strokeDasharray = length;
+		progressRef.current.style.strokeDashoffset = length;
+	}, [setOutlineLength, setProgressLength])
 
 	useEffect(() => {
 		if (isEnded) {
@@ -127,6 +150,11 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 	})
 
 	useEffect(() => {
+		audioRef.current.addEventListener('progress', onProgress);
+		return () => audioRef.current.addEventListener('progress', onProgress);
+	})
+
+	useEffect(() => {
 		audioRef.current.addEventListener('ended', handleEnd);
 		return () => audioRef.current.removeEventListener('ended', handleEnd);
 	})
@@ -135,6 +163,15 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 		document.addEventListener('keydown', handleHotKeys);
 		return () => document.removeEventListener('keydown', handleHotKeys);
 	})
+
+	useEffect(() => {
+		audioRef.current.addEventListener('canplay', checkCanPlay);
+		return () => audioRef.current.addEventListener('canplay', checkCanPlay);
+	})
+
+	
+
+	
 
 	return (
 		<Fragment>
@@ -159,6 +196,9 @@ function Player({ setIsPlaying, isPlaying, isLooped, setLoop, activeAudio, activ
 					</svg>
 					<svg className="moving-outline" width="453" height="453" viewBox="0 0 453 453" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<circle ref={trackRef} cx="226.5" cy="226.5" r="216.5" strokeWidth="10"/>
+					</svg>
+					<svg className="progress-outline" width="453" height="453" viewBox="0 0 453 453" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<circle ref={progressRef} cx="226.5" cy="226.5" r="216.5" strokeWidth="10"/>
 					</svg>
 				</div>
 				<audio ref={audioRef} src={activeAudio}></audio>
