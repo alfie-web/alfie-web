@@ -46,6 +46,7 @@
 		justify-content: center
 		flex-direction: column
 		align-items: center
+		margin-top: -20px
 
 		.track-outline
 			circle
@@ -125,6 +126,16 @@
 
 
 
+@media only screen and (max-width : 1280px)
+	.App
+		&__video 
+			video
+				left: 50%
+				transform: translateX(-50%)
+				height: 100% !important
+				width: auto !important
+
+
 @media only screen and (max-width : 768px)
 	.App
 		&__controls
@@ -132,4 +143,47 @@
 		
 		&__times
 			left: 40px
+
+@media only screen and (max-width : 600px)
+	.App
+		&__player
+			margin-top: 0
+
+			&-track, .track-outline, .moving-outline
+				width: 150px
+				height: 150px
+
+			.Button svg 
+    				width: 30px
+
+			&-time
+				font: 28px 'CirceRounded'
+
+		&__times
+			top: 40px
+			width: 100%
+			flex-direction: row
+			flex-wrap: wrap
+			justify-content: center
+			left: 0
+			transform: translateY(0)
+
+			.Button
+				margin: 0 20px 20px
+
+		&__weather
+			bottom: 40px
+				
 	
+
+@media only screen and (max-width : 480px)
+	.App
+		&__controls
+			right: 25px
+
+		&__weather
+			.Button
+				img
+					margin-right: 0
+				span
+					display: none

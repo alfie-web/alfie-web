@@ -1,13 +1,13 @@
 // Версия без redux
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Fullscreen from "react-full-screen";
 import './App.sass';
 
+import { useTitle } from './hooks';
 import { Player, Weather } from './components';
 
 // TODO: Сделать приложение PWA
-// TODO: Добавить горячие клавиши
+// TODO: Добавить горячие клавиши (В след версии, хотя)
 
 const WEATCHERS = [
 	{
@@ -26,39 +26,19 @@ const WEATCHERS = [
 	},
 	{
 		_id: '3',
-		title: 'Метель',
-		icon: require('./assets/images/cold.svg'),
-		audio: require('./assets/sounds/rain.mp3'),
-		video: require('./assets/video/rain.mp4')
+		title: 'Костёр',
+		icon: require('./assets/images/fire.svg'),
+		// audio: 'https://zvukipro.com/uploads/files/2018-12/1544511362_les-groza-koster-priroda.mp3',
+		audio: require('./assets/sounds/fire.mp3'),
+		video: require('./assets/video/fire.mp4')
 	},
 	{
 		_id: '4',
-		title: 'Буря',
-		icon: require('./assets/images/wind.svg'),
-		audio: require('./assets/sounds/rain.mp3'),
-		video: require('./assets/video/rain.mp4')
-	},
-	{
-		_id: '5',
 		title: 'Река',
 		icon: require('./assets/images/flood.svg'),
 		audio: require('./assets/sounds/river.mp3'),
-		video: require('./assets/video/rain.mp4')
-	},
-	{
-		_id: '6',
-		title: 'Ночь',
-		icon: require('./assets/images/moon.svg'),
-		audio: require('./assets/sounds/beach.mp3'),
-		video: require('./assets/video/beach.mp4')
-	},
-	{
-		_id: '7',
-		title: 'Лес',
-		icon: require('./assets/images/park.svg'),
-		audio: require('./assets/sounds/beach.mp3'),
-		video: require('./assets/video/beach.mp4')
-	},
+		video: require('./assets/video/river.mp4')
+	}
 ]
 
 function App() {
@@ -101,8 +81,7 @@ function App() {
 		setActiveVideo(video);
 	}
 
-	
-	console.log('Родитель обновился')
+	// console.log('Родитель обновился')
 
 	const setLoop = () => {
 		changePlayerState({
@@ -110,18 +89,14 @@ function App() {
 		})
 	}
 
-	useEffect(() => {
-		document.title = "Relax app"
-	}, []);
+	useTitle("Relax app");
 
-	
 	return (
 		<Fullscreen
 			enabled={playerState.isFullscreen}
 			onChange={isFull => changePlayerState({ isFullscreen: isFull })}
 		>
 			<div className="App">
-				
 				<Player 
 					activeAudio={activeAudio}
 					activeVideo={activeVideo}
@@ -136,7 +111,6 @@ function App() {
 					isFullscreen={playerState.isFullscreen}
 				/>
 				
-
 				<div className="App__weather">
 					{ WEATCHERS.map(item => {
 						return (
