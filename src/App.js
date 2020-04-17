@@ -1,4 +1,3 @@
-// Версия без redux
 import React, { useState } from 'react';
 import Fullscreen from "react-full-screen";
 import './App.sass';
@@ -85,7 +84,7 @@ function App() {
 		})
 	}
 
-	useTitle("Relax app");
+	useTitle("Relax App");
 
 	return (
 		<Fullscreen
