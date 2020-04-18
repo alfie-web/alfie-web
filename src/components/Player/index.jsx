@@ -7,7 +7,7 @@ import { Weather } from '../';
 const progressRef = createRef();
 const trackRef = createRef();
 const audioRef = createRef();
-const videoRef = createRef();
+// const videoRef = createRef();
 const timeRef = createRef();
 
 let loadedTime = null;
@@ -40,7 +40,7 @@ function Player({
 
 	const resetTime = () => {
 		audioRef.current.currentTime = 0;
-		videoRef.current.currentTime = 0;
+		// videoRef.current.currentTime = 0;
 	}
 
 	const setDuration = duration => {
@@ -61,7 +61,7 @@ function Player({
 	const stopSound = () => {
 		setIsPlaying(false);
 		audioRef.current.pause();
-		videoRef.current.pause();
+		// videoRef.current.pause();
 	}
 
 	const playSound = () => {
@@ -69,7 +69,7 @@ function Player({
 		// if (audioRef.current.readyState !== 0) {
 			// audioRef.current.load();
 			audioRef.current.play();
-			videoRef.current.play();
+			// videoRef.current.play();
 		// }
 	}
 
@@ -158,7 +158,7 @@ function Player({
 	}
 
 	const checkCanPlay = () => {
-		console.log('Can Play');
+		console.log('Can Play версия без видео');
 		// Также нужно проверять на isLooped, так как запускается даже если false
 		if (isPlaying) playSound();	// TODO: Подумать как сделать так, чтобы по клику на weather не запускалось сразу  (Глазком глянуть на события playing и waiting, но думаю до этого не дойдёт)
 	}
@@ -221,7 +221,7 @@ function Player({
 	return (
 		<Fragment>
 			<div className="App__video">
-				<video ref={videoRef} src={activeVideo} loop></video>
+				{/* <video ref={videoRef} src={activeVideo} loop></video> */}
 			</div>
 
 			<div className="App__player">

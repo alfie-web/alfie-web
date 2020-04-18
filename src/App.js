@@ -84,7 +84,7 @@ function App() {
 
 		setActiveWeather(weatherId)
 		setActiveAudio(audio);
-		setActiveVideo(video);
+		// setActiveVideo(video);
 		changePlayerState({ isPlaying: false })
 	}
 	// console.log('Родитель обновился')
