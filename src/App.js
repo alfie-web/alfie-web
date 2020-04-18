@@ -13,7 +13,8 @@ const WEATCHERS = [
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
 		// audio: require('./assets/sounds/rain.mp3'),
-		audio: 'https://zvukipro.com/uploads/files/2018-12/1544510652_fire-general_fyhulvvd.mp3',
+		audio: 'https://zvukipro.com/uploads/files/2020-03/1583484219_49275dd11f0a96a.mp3',
+		// audio: require('./assets/sounds/test.mp3'),
 		video: require('./assets/video/rain.mp4')
 	},
 	{
@@ -40,6 +41,10 @@ const WEATCHERS = [
 	}
 ]
 
+// TODO: Всё-таки загрузить файлы на google диск - или куда-нибудь ещё
+// Можно подзапариться и сделать прелоадер, показывающийся до того как аудио запустится (до срабатывания canplay. Смотреть в сторону loadstart). Сделать в виде анимированного бара мэйби
+// TODO: Сделать тоже самое что делал для аудио и для видео (canplay и тд)
+
 function App() {
 	const [activeAudio, setActiveAudio] = useState(WEATCHERS[0].audio);
 	const [activeVideo, setActiveVideo] = useState(WEATCHERS[0].video);
@@ -47,7 +52,9 @@ function App() {
 	const [playerState, setPlayerState] = useState({
 		isPlaying: false, 
 		isLooped: false,
-		isFullscreen: false
+		isFullscreen: false,
+		isLoaded: false,
+		isCanPlay: false
 	});
 
 	const changePlayerState = (newState) => {
@@ -68,14 +75,21 @@ function App() {
 			isPlaying: isPlaying
 		})
 	}
+
+	const setIsCanPlay = (canPlay) => {
+		console.log('CAN PLAY')
+		changePlayerState({
+			isCanPlay: canPlay
+		})
+	}
 	
 	const setWeather = (audio, video, weatherId) => {
 		if (activeWeather === weatherId) return;
 	
-		changePlayerState({ isPlaying: false })
 		setActiveWeather(weatherId)
 		setActiveAudio(audio);
 		setActiveVideo(video);
+		changePlayerState({ isPlaying: false })
 	}
 	// console.log('Родитель обновился')
 
@@ -99,6 +113,8 @@ function App() {
 					
 					setIsPlaying={setIsPlaying}
 					isPlaying={playerState.isPlaying}
+					setIsCanPlay={setIsCanPlay}
+					isCanPlay={playerState.isCanPlay}
 
 					setLoop={setLoop}
 					isLooped={playerState.isLooped}
