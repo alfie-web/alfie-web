@@ -44,6 +44,9 @@ const WEATCHERS = [
 // TODO: Всё-таки загрузить файлы на google диск - или куда-нибудь ещё
 // Можно подзапариться и сделать прелоадер, показывающийся до того как аудио запустится (до срабатывания canplay. Смотреть в сторону loadstart). Сделать в виде анимированного бара мэйби
 // TODO: Сделать тоже самое что делал для аудио и для видео (canplay и тд)
+// А воообще было бы ещё круче подробить все элементы на микрокомпонентики
+// Решить проблему Uncaught (in promise) DOMException: The play() request was interrupted by a new load request. // Возникает в билде когда меняю погоду // Скорее всего из за того, что аудио надо паузить перед загрузкой нового, так как он в состоянии плей а мы меняем ему url
+// И вообще может лучше при клике на погоду делать запрос на сервер за получением аудио (хотя зачем, когда url-ы есть)
 
 function App() {
 	const [activeAudio, setActiveAudio] = useState(WEATCHERS[0].audio);
@@ -78,7 +81,7 @@ function App() {
 	
 	const setWeather = (audio, video, weatherId) => {
 		if (activeWeather === weatherId) return;
-	
+
 		setActiveWeather(weatherId)
 		setActiveAudio(audio);
 		setActiveVideo(video);
@@ -112,9 +115,13 @@ function App() {
 
 					goFull={goFull}
 					isFullscreen={playerState.isFullscreen}
+
+					setWeather={setWeather}
+					items={WEATCHERS}
+					activeWeather={activeWeather}
 				/>
 				
-				<div className="App__weather">
+				{/* <div className="App__weather">
 					{ WEATCHERS.map(item => {
 						return (
 							<Weather 
@@ -125,7 +132,7 @@ function App() {
 							/>
 						)
 					}) }
-				</div>
+				</div> */}
 			</div>
 		</Fullscreen>
 	);
