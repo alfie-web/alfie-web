@@ -12,8 +12,8 @@ const WEATCHERS = [
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
-		// audio: require('./assets/sounds/rain.mp3'),
-		audio: 'https://cdndl.mp3party.net/track/6821381/+hy4JVINk74O6bx5kWLKSkIvdUPCGmqaIyfdJx30WvF0p/SZwBwxFD/StMdeKEaqA/Ge9n5B8wCZaOcKxXb/2pwzxtekS+VoPALsIX/wIENfKglMPEN5DYqrsbgRt0LHwn0d/T/KI03XxQm4OEu7vzZuz2KPjRZvpEjaZtQKC7SBDNXmDVll/atc0Wog2r+JehLjnmF8aQwu1w8QB+hCEbSLTmEiBkxCIwwHBl6nAI8zZSbH8BGec5hiaYYpyil+eGE+n5pT9xLgkF94Z0N8dE6RMpZaKfOo4Ts7opGugJfvsXyxM8/0Mmrs/grHPaSZzLS7zTst1Lkvzp1T83C0t3NUSWNPBvxxJUFmgscvGj4=',
+		audio: require('./assets/sounds/rain.mp3'),
+		// audio: 'https://cdndl.mp3party.net/track/6821381/+hy4JVINk74O6bx5kWLKSkIvdUPCGmqaIyfdJx30WvF0p/SZwBwxFD/StMdeKEaqA/Ge9n5B8wCZaOcKxXb/2pwzxtekS+VoPALsIX/wIENfKglMPEN5DYqrsbgRt0LHwn0d/T/KI03XxQm4OEu7vzZuz2KPjRZvpEjaZtQKC7SBDNXmDVll/atc0Wog2r+JehLjnmF8aQwu1w8QB+hCEbSLTmEiBkxCIwwHBl6nAI8zZSbH8BGec5hiaYYpyil+eGE+n5pT9xLgkF94Z0N8dE6RMpZaKfOo4Ts7opGugJfvsXyxM8/0Mmrs/grHPaSZzLS7zTst1Lkvzp1T83C0t3NUSWNPBvxxJUFmgscvGj4=',
 		// audio: require('./assets/sounds/test.mp3'),
 		video: require('./assets/video/rain.mp4')
 	},
