@@ -3,16 +3,15 @@ import Fullscreen from "react-full-screen";
 import './App.sass';
 
 import { useTitle } from './hooks';
-import { Player, Weather } from './components';
-
-// TODO: Сделать приложение PWA
+import { Player } from './components';
 
 const WEATCHERS = [
 	{
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
-		audio: require('./assets/sounds/rain.mp3'),
+		// audio: require('./assets/sounds/rain.mp3'),
+		audio: 'https://doc-04-b8-docs.googleusercontent.com/docs/securesc/0in1fc1s1knjp2m88fk06os2qv0gqcta/grjmof1u0mnspm8is7baaru09l629203/1587201450000/09977035601748835640/09977035601748835640/1NHUqCknady3cvg7iVFIGZUfN3ILGKSEn?e=download&authuser=0&nonce=h89vau5de08d2&user=09977035601748835640&hash=pa0rtdbujeda4nqh1n427gn6oenongu9',
 		// audio: 'https://cdndl.mp3party.net/track/6821381/+hy4JVINk74O6bx5kWLKSkIvdUPCGmqaIyfdJx30WvF0p/SZwBwxFD/StMdeKEaqA/Ge9n5B8wCZaOcKxXb/2pwzxtekS+VoPALsIX/wIENfKglMPEN5DYqrsbgRt0LHwn0d/T/KI03XxQm4OEu7vzZuz2KPjRZvpEjaZtQKC7SBDNXmDVll/atc0Wog2r+JehLjnmF8aQwu1w8QB+hCEbSLTmEiBkxCIwwHBl6nAI8zZSbH8BGec5hiaYYpyil+eGE+n5pT9xLgkF94Z0N8dE6RMpZaKfOo4Ts7opGugJfvsXyxM8/0Mmrs/grHPaSZzLS7zTst1Lkvzp1T83C0t3NUSWNPBvxxJUFmgscvGj4=',
 		// audio: require('./assets/sounds/test.mp3'),
 		video: require('./assets/video/rain.mp4')
@@ -21,7 +20,8 @@ const WEATCHERS = [
 		_id: '2',
 		title: 'Лето',
 		icon: require('./assets/images/sun.svg'),
-		audio: require('./assets/sounds/beach.mp3'),
+		// audio: require('./assets/sounds/beach.mp3'),
+		audio: 'https://doc-14-b8-docs.googleusercontent.com/docs/securesc/0in1fc1s1knjp2m88fk06os2qv0gqcta/vqcg0dpr9m5jqju6abh4n73ieatmh834/1587201300000/09977035601748835640/09977035601748835640/1R7ODr52C4by5NFvaamLh42DWNC9oDwMu?e=download&authuser=0',
 		video: require('./assets/video/beach.mp4')
 	},
 	{
