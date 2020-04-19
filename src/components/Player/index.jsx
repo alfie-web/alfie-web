@@ -234,12 +234,12 @@ function Player({
 
 	useEffect(() => {
 		const ref = audioRef.current;
-		ref.addEventListener('error', (e) => {
-			alert(e)
+		ref.addEventListener('error', () => {
+			alert(ref.error.message + ', ' + ref.error.code)
 			ref.load();
 		});
-		return () => ref.removeEventListener('error', (e) => {
-			alert(e)
+		return () => ref.removeEventListener('error', () => {
+			alert(ref.error.message + ', ' + ref.error.code)
 			ref.load();
 		});
 	})
