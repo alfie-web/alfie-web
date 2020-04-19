@@ -246,7 +246,7 @@ function Player({
 			alert(ref.error + ', ' + e)
 			ref.load();
 		});
-		return () => ref.removeEventListener('error', () => {
+		return () => ref.removeEventListener('error', (e) => {
 			alert(ref.error + ', ' + e)
 			ref.load();
 		});
