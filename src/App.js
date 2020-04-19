@@ -11,30 +11,37 @@ const WEATCHERS = [
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
-		// audio: 'https://cdndl.mp3party.net/track/6821381/HxU7uPP1haEN1U9BypA7gYoklMZeDa2QQPoBq24XZwBUoqhJDISCEMBeKfzraXbJxBfLJNhK7XHupNm0ZrtbYctVXnXq46x8Sq8tV7M3+AN++3Rqox3Pqb7ldy3ZTFdIY9q5F79TpRrFCKtVi+bqfSSvsHultzqZdXQCbbfklgC1/ScS44Fd019TkNi1GrMRpOXBV06rRO2ITjgq/CFgbIPRsjD30mnhpov+OGG4TNn3Yl07nX6ZQtGqczXtSG0T8nnY+Z0twLk4bSz7FAYQDPuboKkq017rNSy+ScssvYd8epGlWsdB0JhivmP80lsaY4SeOY8pBKh1T71J8w26sg==',
-		audio: require('./assets/sounds/rain.mp3'),
-		video: require('./assets/video/rain.mp4')
+		audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587299147/meditation/rain_tozqy9.mp3',
+		// audio: require('./assets/sounds/rain.mp3'),
+		// video: require('./assets/video/rain.mp4')
+		video: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587298732/meditation/rain_ln212m.mp4'
 	},
 	{
 		_id: '2',
 		title: 'Лето',
 		icon: require('./assets/images/sun.svg'),
-		audio: require('./assets/sounds/beach.mp3'),
-		video: require('./assets/video/beach.mp4')
+		audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587299040/meditation/beach_t25yl6.mp3',
+		// audio: require('./assets/sounds/beach.mp3'),
+		// video: require('./assets/video/beach.mp4')
+		video: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587298748/meditation/beach_upirir.mp4'
 	},
 	{
 		_id: '3',
 		title: 'Костёр',
 		icon: require('./assets/images/fire.svg'),
-		audio: require('./assets/sounds/fire.mp3'),
-		video: require('./assets/video/fire.mp4')
+		// audio: require('./assets/sounds/fire.mp3'),
+		audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587299183/meditation/fire_jhwgm5.mp3',
+		// video: require('./assets/video/fire.mp4')
+		video: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587298752/meditation/fire_p3cqbb.mkv'
 	},
 	{
 		_id: '4',
 		title: 'Река',
 		icon: require('./assets/images/flood.svg'),
-		audio: require('./assets/sounds/river.mp3'),
-		video: require('./assets/video/river.mp4')
+		// audio: require('./assets/sounds/river.mp3'),
+		audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587299218/meditation/river_a9mryx.mp3',
+		// video: require('./assets/video/river.mp4')
+		video: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587298764/meditation/river_vwayoy.mkv'
 	}
 ]
 
