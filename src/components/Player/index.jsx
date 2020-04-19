@@ -207,13 +207,15 @@ function Player({
 
 	// Может тоже порефакторить
 	useEffect(() => {
-		document.addEventListener('waiting', () => console.log('WAITING'));
-		return () => document.removeEventListener('waiting', () => console.log('WAITING'));
+		const ref = audioRef.current;
+		ref.addEventListener('waiting', () => console.log('WAITING'));
+		return () => ref.removeEventListener('waiting', () => console.log('WAITING'));
 	})
 
 	useEffect(() => {
-		document.addEventListener('playing', () => console.log('READY AFTER WAITING'));
-		return () => document.removeEventListener('playing', () => console.log('READY AFTER WAITING'));
+		const ref = audioRef.current;
+		ref.addEventListener('playing', () => console.log('READY AFTER WAITING'));
+		return () => ref.removeEventListener('playing', () => console.log('READY AFTER WAITING'));
 	})
 
 	useEffect(() => {
