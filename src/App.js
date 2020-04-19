@@ -3,25 +3,22 @@ import Fullscreen from "react-full-screen";
 import './App.sass';
 
 import { useTitle } from './hooks';
-import { Player } from './components';
+import { Player, Weather } from './components';
 
 const WEATCHERS = [
 	{
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
-		// audio: require('./assets/sounds/rain.mp3'),
-		audio: 'https://doc-04-b8-docs.googleusercontent.com/docs/securesc/0in1fc1s1knjp2m88fk06os2qv0gqcta/grjmof1u0mnspm8is7baaru09l629203/1587201450000/09977035601748835640/09977035601748835640/1NHUqCknady3cvg7iVFIGZUfN3ILGKSEn?e=download&authuser=0&nonce=h89vau5de08d2&user=09977035601748835640&hash=pa0rtdbujeda4nqh1n427gn6oenongu9',
-		// audio: 'https://cdndl.mp3party.net/track/6821381/+hy4JVINk74O6bx5kWLKSkIvdUPCGmqaIyfdJx30WvF0p/SZwBwxFD/StMdeKEaqA/Ge9n5B8wCZaOcKxXb/2pwzxtekS+VoPALsIX/wIENfKglMPEN5DYqrsbgRt0LHwn0d/T/KI03XxQm4OEu7vzZuz2KPjRZvpEjaZtQKC7SBDNXmDVll/atc0Wog2r+JehLjnmF8aQwu1w8QB+hCEbSLTmEiBkxCIwwHBl6nAI8zZSbH8BGec5hiaYYpyil+eGE+n5pT9xLgkF94Z0N8dE6RMpZaKfOo4Ts7opGugJfvsXyxM8/0Mmrs/grHPaSZzLS7zTst1Lkvzp1T83C0t3NUSWNPBvxxJUFmgscvGj4=',
-		// audio: require('./assets/sounds/test.mp3'),
+		audio: require('./assets/sounds/rain.mp3'),
 		video: require('./assets/video/rain.mp4')
 	},
 	{
 		_id: '2',
 		title: 'Лето',
 		icon: require('./assets/images/sun.svg'),
-		// audio: require('./assets/sounds/beach.mp3'),
-		audio: 'https://doc-14-b8-docs.googleusercontent.com/docs/securesc/0in1fc1s1knjp2m88fk06os2qv0gqcta/vqcg0dpr9m5jqju6abh4n73ieatmh834/1587201300000/09977035601748835640/09977035601748835640/1R7ODr52C4by5NFvaamLh42DWNC9oDwMu?e=download&authuser=0',
+		audio: require('./assets/sounds/beach.mp3'),
+		// audio: 'https://doc-14-b8-docs.googleusercontent.com/docs/securesc/0in1fc1s1knjp2m88fk06os2qv0gqcta/vqcg0dpr9m5jqju6abh4n73ieatmh834/1587201300000/09977035601748835640/09977035601748835640/1R7ODr52C4by5NFvaamLh42DWNC9oDwMu?e=download&authuser=0',
 		video: require('./assets/video/beach.mp4')
 	},
 	{
@@ -41,6 +38,16 @@ const WEATCHERS = [
 	}
 ]
 
+
+
+
+// TODO: ВООБЩЕ ВСЕ ПЕРЕОСМЫСЛИТЬ И ПЕРЕПИСАТЬ,
+// В первую очередь сделать корректную загрузку и переключение файлов
+// Проигрывание, зацикливание
+// Выбор времени
+// Желательно подробить всё на подкомпоненты
+
+
 // TODO: Всё-таки загрузить файлы на google диск - или куда-нибудь ещё
 // Можно подзапариться и сделать прелоадер, показывающийся до того как аудио запустится (до срабатывания canplay. Смотреть в сторону loadstart). Сделать в виде анимированного бара мэйби
 // TODO: Сделать тоже самое что делал для аудио и для видео (canplay и тд)
@@ -48,15 +55,17 @@ const WEATCHERS = [
 // Решить проблему Uncaught (in promise) DOMException: The play() request was interrupted by a new load request. // Возникает в билде когда меняю погоду // Скорее всего из за того, что аудио надо паузить перед загрузкой нового, так как он в состоянии плей а мы меняем ему url
 // И вообще может лучше при клике на погоду делать запрос на сервер за получением аудио (хотя зачем, когда url-ы есть)
 
+
 function App() {
-	const [activeAudio, setActiveAudio] = useState(WEATCHERS[0].audio);
-	const [activeVideo, setActiveVideo] = useState(WEATCHERS[0].video);
-	const [activeWeather, setActiveWeather] = useState(WEATCHERS[0]._id);
 	const [playerState, setPlayerState] = useState({
+		activeWeather: WEATCHERS[0]._id,
+		activeAudio: WEATCHERS[0].audio,
+		activeVideo: WEATCHERS[0].video,
 		isPlaying: false, 
 		isLooped: false,
 		isFullscreen: false,
-		isLoaded: false,
+		isCan: false,
+		isEnded: false
 	});
 
 	const changePlayerState = (newState) => {
@@ -66,7 +75,7 @@ function App() {
 		})
 	}
 
-	const goFull = () => {
+	const setFullscreen = () => {
 		changePlayerState({
 			isFullscreen: !playerState.isFullscreen
 		})
@@ -74,26 +83,41 @@ function App() {
 
 	const setIsPlaying = (isPlaying) => {
 		changePlayerState({
-			isPlaying: isPlaying
+			isPlaying
 		})
 	}
 
-	
-	const setWeather = (audio, video, weatherId) => {
-		if (activeWeather === weatherId) return;
-
-		setActiveWeather(weatherId)
-		setActiveAudio(audio);
-		// setActiveVideo(video);
-		changePlayerState({ isPlaying: false })
+	const setIsCan = (isCan) => {
+		changePlayerState({
+			isCan
+		})
 	}
-	// console.log('Родитель обновился')
 
 	const setLoop = () => {
 		changePlayerState({
 			isLooped: !playerState.isLooped
 		})
 	}
+
+	const setIsEnded = (isEnded) => {
+		changePlayerState({
+			isEnded
+		})
+	}
+
+	const setWeather = (audio, video, weatherId) => {
+		if (playerState.activeWeather === weatherId) return;
+
+		changePlayerState({ 
+			isPlaying: false,
+			activeWeather: weatherId,
+			activeAudio: audio,
+			activeVideo: video
+		})
+	}
+	// console.log('Родитель обновился')
+
+	
 
 	useTitle("Relax App");
 
@@ -104,8 +128,8 @@ function App() {
 		>
 			<div className="App">
 				<Player 
-					activeAudio={activeAudio}
-					activeVideo={activeVideo}
+					activeAudio={playerState.activeAudio}
+					activeVideo={playerState.activeVideo}
 					
 					setIsPlaying={setIsPlaying}
 					isPlaying={playerState.isPlaying}
@@ -113,26 +137,32 @@ function App() {
 					setLoop={setLoop}
 					isLooped={playerState.isLooped}
 
-					goFull={goFull}
+					setFullscreen={setFullscreen}
 					isFullscreen={playerState.isFullscreen}
 
-					setWeather={setWeather}
-					items={WEATCHERS}
-					activeWeather={activeWeather}
+					// setWeather={setWeather}
+					// items={WEATCHERS}
+					// activeWeather={activeWeather}
+
+					setIsCan={setIsCan}
+					isCan={playerState.isCan}
+
+					setIsEnded={setIsEnded}
+					isEnded={playerState.isEnded}
 				/>
 				
-				{/* <div className="App__weather">
+				<div className="App__weather">
 					{ WEATCHERS.map(item => {
 						return (
 							<Weather 
 								key={ item._id }
-								activeWeather={ activeWeather }
+								activeWeather={ playerState.activeWeather }
 								setWeather={ setWeather }
 								item={ item }
 							/>
 						)
 					}) }
-				</div> */}
+				</div>
 			</div>
 		</Fullscreen>
 	);

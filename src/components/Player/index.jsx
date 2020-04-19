@@ -1,56 +1,49 @@
 
-import React, { Fragment, useState, createRef, useEffect } from 'react';
-import classNames from 'classnames';
 
-import { Weather } from '../';
+
+//  Основная рерсия без waiting и тд (РАБОТАЕТ)
+import React, { Fragment, useState, createRef, useEffect, useCallback } from 'react';
+import classNames from 'classnames';
 
 const progressRef = createRef();
 const trackRef = createRef();
 const audioRef = createRef();
-// const videoRef = createRef();
+const videoRef = createRef();
 const timeRef = createRef();
-
-let loadedTime = null;
-// let outlineLength = null;
-// let progressLength = null;
 
 // TODO: А по хорошему надо сделать проверки на существование видео и аудиофайла
 function Player({ 
-		setIsPlaying, 
-		isPlaying, 
-		isLooped, 
-		setLoop, 
-		activeAudio, 
-		activeVideo, 
-		goFull, 
-		isFullscreen,
-		setWeather,
-		items,
-		activeWeather
-	}) {
+	activeAudio, 
+	activeVideo, 
+
+	setIsPlaying, 
+	isPlaying, 
+
+	setLoop, 
+	isLooped, 
+
+	setFullscreen, 
+	isFullscreen,
+
+	setIsCan,
+	isCan,
+
+	setIsEnded,
+	isEnded
+}) {
 	const [fakeDuration, setFakeDuration] = useState(600);
-	const [isEnded, setIsEnded] = useState(false);		// Возможно стоит вынести в родителя
-	// const [isCanPlay, setIsCanPlay] = useState(false);		// Возможно стоит вынести в родителя
 	const [outlineLength, setOutlineLength] = useState(null);
 	const [progressLength, setProgressLength] = useState(null);
-	// console.log(isLooped)
-
-
-	
 
 	const resetTime = () => {
 		audioRef.current.currentTime = 0;
-		// videoRef.current.currentTime = 0;
+		videoRef.current.currentTime = 0;
 	}
 
 	const setDuration = duration => {
 		// audioRef.current.load()
 		resetTime()		// Здесь тоже произойдёт timeupdate
 		setFakeDuration(duration);
-
-		let progress = progressLength - (loadedTime / duration) * progressLength;
-		progressRef.current.style.strokeDashoffset = progress;
-		console.log('Progress', progress)
 		// setBarsLength();
 	}
 
@@ -64,13 +57,14 @@ function Player({
 		// videoRef.current.pause();
 	}
 
+	// const playSound = useCallback(() => {
 	const playSound = () => {
-		setIsPlaying(true);
-		// if (audioRef.current.readyState !== 0) {
-			// audioRef.current.load();
+		// if (isCan) {
+			setIsPlaying(true);
 			audioRef.current.play();
 			// videoRef.current.play();
 		// }
+	// }, [isCan, setIsPlaying]);
 	}
 
 	const playPauseSound = () => {
@@ -81,24 +75,24 @@ function Player({
 		}
 	}
 
-	const onEnd = () => {
-		resetTime();
-		setIsEnded(false);
-		setIsPlaying(false);
+	// const onEnd = () => {
+	// 	resetTime();
+	// 	setIsEnded(false);
+	// 	setIsPlaying(false);
 		
-		if (isLooped) {
-			console.log('Зациклено', isLooped)
-			playSound();
-		} else {
-			console.log('Не зациклено', isLooped)
-			stopSound();
-		}
-	}
+	// 	if (isLooped) {
+	// 		console.log('Зациклено', isLooped)
+	// 		playSound();
+	// 	} else {
+	// 		console.log('Не зациклено', isLooped)
+	// 		stopSound();
+	// 	}
+	// }
 
-	const handleEnd = () => {
-		console.log('ENDED')
-		setIsEnded(true);
-	}
+	// const handleEnd = () => {
+	// 	console.log('ENDED')
+	// 	setIsEnded(true);
+	// }
 
 	const onPlay = () => {
 		let currentTime = audioRef.current.currentTime;
@@ -111,8 +105,10 @@ function Player({
 		let progress = outlineLength - (currentTime / fakeDuration) * outlineLength;
 		trackRef.current.style.strokeDashoffset = progress;
 
+		// if (currentTime >= fakeDuration) {
 		if (currentTime >= fakeDuration || audioRef.current.ended) {
-			handleEnd()
+			// handleEnd()
+			console.log('END')
 		}
 	}
 
@@ -122,8 +118,7 @@ function Player({
 	const onProgress = (e) => {
 		console.log('progress')
 		if (audioRef.current.readyState !== 0) {	// Без этого buffered почемуто выдаёт ошибку
-			// var loadedTime = e.target.buffered.end(0);
-			loadedTime = e.target.buffered.end(0);
+			var loadedTime = e.target.buffered.end(0);
 			console.log(loadedTime);
 		
 			let progress = progressLength - (loadedTime / fakeDuration) * progressLength;
@@ -139,7 +134,7 @@ function Player({
 				playPauseSound();
 				break;
 			case 70:	// F
-				goFull();
+				setFullscreen();
 				break;
 			case 76:	// L
 				setLoop();
@@ -157,50 +152,61 @@ function Player({
 		}
 	}
 
-	const checkCanPlay = () => {
-		console.log('Can Play версия без видео');
-		// Также нужно проверять на isLooped, так как запускается даже если false
-		if (isPlaying) playSound();	// TODO: Подумать как сделать так, чтобы по клику на weather не запускалось сразу  (Глазком глянуть на события playing и waiting, но думаю до этого не дойдёт)
-	}
+	// const checkCanPlay = () => {
+	// 	console.log('Can Play');
+	// 	// Также нужно проверять на isLooped, так как запускается даже если false
+	// 	setIsCan(true);
+	// 	// if (isPlaying) playSound();	// TODO: Подумать как сделать так, чтобы по клику на weather не запускалось сразу  (Глазком глянуть на события playing и waiting, но думаю до этого не дойдёт)
+	// }
+
+	// const setWaiting = () => {
+	// 	console.log('Waiting')
+	// 	setIsCan(false);
+	// }
 
 
-	const handleSetWeather = (audio, video, weatherId) => {
-		playPauseSound()
-		setWeather(audio, video, weatherId);
-	}
+
+	// useEffect(() => {
+	// 	audioRef.current.load();
+	// 	console.log('LOADED')
+	// }, [activeAudio])
 
 	// устанавливаю ширину bar-а изначально 
 	useEffect(() => {
 		let length = trackRef.current.getTotalLength()
 		setOutlineLength(length);
 		setProgressLength(length);
-
-		// outlineLength = length;
-		// progressLength = length;
-		// setProgressLength(length);
-
 		trackRef.current.style.strokeDasharray = length;
 		trackRef.current.style.strokeDashoffset = length;
 		progressRef.current.style.strokeDasharray = length;
 		progressRef.current.style.strokeDashoffset = length;
 	}, [setOutlineLength, setProgressLength])
-	// })
 
-	useEffect(() => {
-		if (isEnded) {
-			onEnd();
-		}
-	})
+
+
+	// useEffect(() => {
+	// 	if (isCan && isPlaying) {
+	// 		playSound()
+	// 	}
+	// }, [isCan, isPlaying, playSound])
+
+	// useEffect(() => {
+	// 	if (isEnded) {
+	// 		onEnd();
+	// 	}
+	// })
 
 	// Может тоже порефакторить
 	useEffect(() => {
-		audioRef.current.addEventListener('timeupdate', onPlay);
-		return () => audioRef.current.removeEventListener('timeupdate', onPlay);
+		const ref = audioRef.current;
+		ref.addEventListener('timeupdate', onPlay);
+		return () => ref.removeEventListener('timeupdate', onPlay);
 	})
 
 	useEffect(() => {
-		audioRef.current.addEventListener('progress', onProgress);
-		return () => audioRef.current.removeEventListener('progress', onProgress);
+		const ref = audioRef.current;
+		ref.addEventListener('progress', onProgress);
+		return () => ref.removeEventListener('progress', onProgress);
 	})
 
 	useEffect(() => {
@@ -209,19 +215,24 @@ function Player({
 	})
 
 	// По возможности избавиться. Почемуто Can Play в консоль выводится с экспоненциальным ростом. Так же возникли баги с клавишами из за этого скорее всего, много ререндеров
-	useEffect(() => {
-		audioRef.current.addEventListener('canplay', checkCanPlay);
-		return () => audioRef.current.removeEventListener('canplay', checkCanPlay);
-	})
+	// useEffect(() => {
+	// 	const ref = audioRef.current;
+	// 	ref.addEventListener('canplay', checkCanPlay);
+	// 	return () => ref.removeEventListener('canplay', checkCanPlay);
+	// })
 
-	
+	// useEffect(() => {
+	// 	const ref = audioRef.current;
+	// 	ref.addEventListener('waiting', setWaiting);
+	// 	return () => ref.removeEventListener('waiting', setWaiting);
+	// })
 
 	
 
 	return (
 		<Fragment>
 			<div className="App__video">
-				{/* <video ref={videoRef} src={activeVideo} loop></video> */}
+				<video ref={videoRef} src={activeVideo} loop></video>
 			</div>
 
 			<div className="App__player">
@@ -256,19 +267,6 @@ function Player({
 				<button className={ classNames('Button', { 'Button--active': fakeDuration === 600 }) } title="10 минут [3]" name="600" onClick={() => setDuration(600)}>10 минут</button>
 			</div>
 
-			<div className="App__weather">
-				{ items.map(item => {
-					return (
-						<Weather 
-							key={ item._id }
-							activeWeather={ activeWeather }
-							setWeather={ handleSetWeather }
-							item={ item }
-						/>
-					)
-				}) }
-			</div>
-
 			<div className="App__controls">
 				<button className={ classNames('Button', { 'Button--active': isLooped }) } onClick={ setLoop } title="Зациклить [L]">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 371.108 371.108">
@@ -283,7 +281,7 @@ function Player({
 					c10.813,0,19.578-8.687,19.578-19.5s-8.765-19.5-19.578-19.5h-40.028v-61.302C190.554,94.439,181.867,85.674,171.054,85.674z"/>
 				</svg>
 				</button>
-				<button className="Button" title={ !isFullscreen ? "Во весь экран [F]" : "Выход из полноэкранного режима [F]" } onClick={goFull}>
+				<button className="Button" title={ !isFullscreen ? "Во весь экран [F]" : "Выход из полноэкранного режима [F]" } onClick={setFullscreen}>
 					{ isFullscreen ? <svg viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
 						<path d="M21 9.75C21.6904 9.75 22.25 9.19035 22.25 8.5C22.25 7.80964 21.6904 7.25 21 7.25L21 9.75ZM16.5 8.50001L16.5 9.75001L16.5 9.75001L16.5 8.50001ZM14.5 6.50001L15.75 6.50001L15.75 6.50001L14.5 6.50001ZM15.75 2C15.75 1.30964 15.1904 0.75 14.5 0.75C13.8096 0.75 13.25 1.30964 13.25 2L15.75 2ZM1.5 13.75C0.809646 13.75 0.250001 14.3097 0.25 15C0.249999 15.6904 0.809642 16.25 1.5 16.25L1.5 13.75ZM6 15L6 16.25H6V15ZM8 17L9.25 17V17H8ZM6.75 21.5C6.75 22.1904 7.30964 22.75 8 22.75C8.69036 22.75 9.25 22.1904 9.25 21.5L6.75 21.5ZM21 7.25L16.5 7.25001L16.5 9.75001L21 9.75L21 7.25ZM15.75 6.50001L15.75 2L13.25 2L13.25 6.50001L15.75 6.50001ZM16.5 7.25001C16.0858 7.25001 15.75 6.91422 15.75 6.50001L13.25 6.50001C13.25 8.29493 14.7051 9.75001 16.5 9.75001L16.5 7.25001ZM1.5 16.25L6 16.25L6 13.75L1.5 13.75L1.5 16.25ZM6.75 17L6.75 21.5L9.25 21.5L9.25 17L6.75 17ZM6 16.25C6.41421 16.25 6.75 16.5858 6.75 17H9.25C9.25 15.2051 7.79493 13.75 6 13.75V16.25Z"/>
 					</svg>
@@ -301,16 +299,6 @@ function Player({
 }
 
 export default Player;
-
-
-
-
-
-
-
-
-
-
 
 
 
