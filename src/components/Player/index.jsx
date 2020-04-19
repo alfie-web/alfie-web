@@ -243,11 +243,11 @@ function Player({
 	useEffect(() => {
 		const ref = audioRef.current;
 		ref.addEventListener('error', (e) => {
-			alert(ref.error + ', ' + e)
+			alert('Ошибка', ref.error , ref.error.message, ref.error.code)
 			ref.load();
 		});
 		return () => ref.removeEventListener('error', (e) => {
-			alert(ref.error + ', ' + e)
+			alert('Ошибка', ref.error , ref.error.message, ref.error.code)
 			ref.load();
 		});
 	})
