@@ -234,8 +234,14 @@ function Player({
 
 	useEffect(() => {
 		const ref = audioRef.current;
-		ref.addEventListener('error', (e) => alert(e));
-		return () => ref.removeEventListener('error', (e) => alert(e));
+		ref.addEventListener('error', (e) => {
+			alert(e)
+			ref.load();
+		});
+		return () => ref.removeEventListener('error', (e) => {
+			alert(e)
+			ref.load();
+		});
 	})
 
 	// useEffect(() => {
