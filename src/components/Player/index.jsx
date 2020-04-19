@@ -152,6 +152,17 @@ function Player({
 		}
 	}
 
+	const checkCanPlay = () => {
+		console.log('Can Play');
+		if (isPlaying) {
+			// audioRef.current.play()
+			playSound();
+		}
+		// Также нужно проверять на isLooped, так как запускается даже если false
+		// setIsCan(true);
+		// if (isPlaying) playSound();	// TODO: Подумать как сделать так, чтобы по клику на weather не запускалось сразу  (Глазком глянуть на события playing и waiting, но думаю до этого не дойдёт)
+	}
+
 	// const checkCanPlay = () => {
 	// 	console.log('Can Play');
 	// 	// Также нужно проверять на isLooped, так как запускается даже если false
@@ -215,11 +226,17 @@ function Player({
 	})
 
 	// По возможности избавиться. Почемуто Can Play в консоль выводится с экспоненциальным ростом. Так же возникли баги с клавишами из за этого скорее всего, много ререндеров
-	// useEffect(() => {
-	// 	const ref = audioRef.current;
-	// 	ref.addEventListener('canplay', checkCanPlay);
-	// 	return () => ref.removeEventListener('canplay', checkCanPlay);
-	// })
+	useEffect(() => {
+		const ref = audioRef.current;
+		ref.addEventListener('canplay', checkCanPlay);
+		return () => ref.removeEventListener('canplay', checkCanPlay);
+	})
+
+	useEffect(() => {
+		const ref = audioRef.current;
+		ref.addEventListener('error', (e) => alert(e));
+		return () => ref.removeEventListener('error', (e) => alert(e));
+	})
 
 	// useEffect(() => {
 	// 	const ref = audioRef.current;
