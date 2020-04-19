@@ -256,12 +256,12 @@ function Player({
 		ref.addEventListener('error', (e) => {
 			alert('Ошибка: ' + ref.error + ', ' + ref.error.message + ', ' + ref.error.code)
 			alert(ref.error.code)
-			// ref.load();
+			ref.load();
 		});
 		return () => ref.removeEventListener('error', (e) => {
 			alert('Ошибка: ' + ref.error + ', ' + ref.error.message + ', ' + ref.error.code)
 			alert(ref.error.code)
-			// ref.load();
+			ref.load();
 		});
 	})
 
