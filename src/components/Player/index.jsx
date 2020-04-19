@@ -205,17 +205,25 @@ function Player({
 	// 	}
 	// })
 
+	const setWaiting = () => {
+		console.log('WAITING')
+	}
+
+	const setReadyToPlay = () => {
+		console.log('READY TO PLAY')
+	}
+
 	// Может тоже порефакторить
 	useEffect(() => {
 		const ref = audioRef.current;
-		ref.addEventListener('waiting', () => console.log('WAITING'));
-		return () => ref.removeEventListener('waiting', () => console.log('WAITING'));
+		ref.addEventListener('waiting', setWaiting);
+		return () => ref.removeEventListener('waiting', setWaiting);
 	})
 
 	useEffect(() => {
 		const ref = audioRef.current;
-		ref.addEventListener('playing', () => console.log('READY AFTER WAITING'));
-		return () => ref.removeEventListener('playing', () => console.log('READY AFTER WAITING'));
+		ref.addEventListener('playing', setReadyToPlay);
+		return () => ref.removeEventListener('playing', setReadyToPlay);
 	})
 
 	useEffect(() => {
