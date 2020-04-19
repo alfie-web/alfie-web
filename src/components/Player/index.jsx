@@ -215,13 +215,14 @@ function Player({
 
 	// Может тоже порефакторить
 	useEffect(() => {
-		const ref = audioRef.current;
+		// TODO: Когда происходит это событие, нужно блокировать кнопки выбора погоды, так как вылазиет ошибка. (Так как аудио проигрывается формально, хоть и waiting, но мы его нарушаем меняя url аудио)
+		let ref = audioRef.current;
 		ref.addEventListener('waiting', setWaiting);
 		return () => ref.removeEventListener('waiting', setWaiting);
 	})
 
 	useEffect(() => {
-		const ref = audioRef.current;
+		let ref = audioRef.current;
 		ref.addEventListener('playing', setReadyToPlay);
 		return () => ref.removeEventListener('playing', setReadyToPlay);
 	})
@@ -253,12 +254,12 @@ function Player({
 	useEffect(() => {
 		const ref = audioRef.current;
 		ref.addEventListener('error', (e) => {
-			alert('Ошибка', ref.error , ref.error.message, ref.error.code)
-			ref.load();
+			alert('Ошибка' + ref.error + ', ' + ref.error.message + ', ' + ref.error.code)
+			// ref.load();
 		});
 		return () => ref.removeEventListener('error', (e) => {
-			alert('Ошибка', ref.error , ref.error.message, ref.error.code)
-			ref.load();
+			alert('Ошибка' + ref.error + ', ' + ref.error.message + ', ' + ref.error.code)
+			// ref.load();
 		});
 	})
 
