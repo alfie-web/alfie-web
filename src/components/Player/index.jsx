@@ -302,7 +302,7 @@ function Player({
 			</div>
 
 			<div className="App__times">
-				<button className={ classNames('Button', { 'Button--active': fakeDuration === 15 }) } title="2 минуты [1]" name="15" onClick={() => setDuration(15)}>2 минуты</button>
+				<button className={ classNames('Button', { 'Button--active': fakeDuration === 120 }) } title="2 минуты [1]" name="120" onClick={() => setDuration(120)}>2 минуты</button>
 				<button className={ classNames('Button', { 'Button--active': fakeDuration === 300 }) } title="5 минут [2]" name="300" onClick={() => setDuration(300)}>5 минут</button>
 				<button className={ classNames('Button', { 'Button--active': fakeDuration === 600 }) } title="10 минут [3]" name="600" onClick={() => setDuration(600)}>10 минут</button>
 			</div>

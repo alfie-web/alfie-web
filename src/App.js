@@ -6,6 +6,8 @@ import './App.sass';
 import { useTitle } from './hooks';
 import { Player, Weather } from './components';
 
+// TODO: ПОдумать что можно сделать с прогресс баром, чтобы при выборе времени корректная длина была и менялась вообще
+
 const WEATCHERS = [
 	{
 		_id: '1',
