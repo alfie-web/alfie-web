@@ -48,8 +48,8 @@ function Player({
 		if (isPlaying) {
 			console.log('stop sound')
 			audioRef.current.pause();
+			videoRef.current.pause();
 			setIsPlaying(false);
-			// videoRef.current.pause();
 		}
 	}
 
@@ -58,9 +58,11 @@ function Player({
 		if (!isPlaying) {
 			audioRef.current.play()
 				.then(() => {
-					setIsPlaying(true);
+					videoRef.current.play()
+						.then(() => {
+							setIsPlaying(true);
+						})
 				})
-			// videoRef.current.play();
 		}
 	}
 
@@ -80,6 +82,7 @@ function Player({
 			console.log('Зациклено', isLooped)
 			// playSound();
 			audioRef.current.play()
+			// videoRef.current.play()
 		} else {
 			console.log('Не зациклено', isLooped)
 			stopSound();
