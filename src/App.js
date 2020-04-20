@@ -135,27 +135,28 @@ function App() {
 		>
 			<div className="App">
 				<Player 
-					activeAudio={playerState.activeAudio}
-					activeVideo={playerState.activeVideo}
+					// activeAudio={playerState.activeAudio}
+					// activeVideo={playerState.activeVideo}
+					playerState={playerState}
 					
 					setIsPlaying={setIsPlaying}
-					isPlaying={playerState.isPlaying}
+					// isPlaying={playerState.isPlaying}
 
 					setLoop={setLoop}
-					isLooped={playerState.isLooped}
+					// isLooped={playerState.isLooped}
 
 					setFullscreen={setFullscreen}
-					isFullscreen={playerState.isFullscreen}
+					// isFullscreen={playerState.isFullscreen}
 
 					// setWeather={setWeather}
 					// items={WEATCHERS}
 					// activeWeather={activeWeather}
 
 					setIsCan={setIsCan}
-					isCan={playerState.isCan}
+					// isCan={playerState.isCan}
 
 					setIsEnded={setIsEnded}
-					isEnded={playerState.isEnded}
+					// isEnded={playerState.isEnded}
 				/>
 				
 				<div className="App__weather">
