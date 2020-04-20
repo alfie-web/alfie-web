@@ -58,11 +58,16 @@ function Player({
 		if (!isPlaying) {
 			audioRef.current.play()
 				.then(() => {
+					setIsPlaying(true);
 					videoRef.current.play()
-						.then(() => {
-							setIsPlaying(true);
-						})
 				})
+			// audioRef.current.play()
+			// 	.then(() => {
+			// 		videoRef.current.play()
+			// 			.then(() => {
+			// 				setIsPlaying(true);
+			// 			})
+			// 	})
 		}
 	}
 
