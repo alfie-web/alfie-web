@@ -78,7 +78,8 @@ function Player({
 		
 		if (isLooped) {
 			console.log('Зациклено', isLooped)
-			playSound();
+			// playSound();
+			audioRef.current.play()
 		} else {
 			console.log('Не зациклено', isLooped)
 			stopSound();
@@ -200,10 +201,14 @@ function Player({
 
 	const setWaiting = () => {
 		console.log('WAITING')
+		setIsCan(false);
 	}
 
 	const setReadyToPlay = () => {
 		console.log('READY TO PLAY')
+		if (!isCan) {
+			setIsCan(true);
+		}
 	}
 
 	// Может тоже порефакторить
@@ -216,8 +221,8 @@ function Player({
 
 	useEffect(() => {
 		let ref = audioRef.current;
-		ref.addEventListener('playing', setReadyToPlay);
-		return () => ref.removeEventListener('playing', setReadyToPlay);
+		ref.addEventListener('canplay', setReadyToPlay);	// playing
+		return () => ref.removeEventListener('canplay', setReadyToPlay);
 	})
 
 	useEffect(() => {
@@ -275,7 +280,7 @@ function Player({
 					}
 					</button>
 					<svg className="track-outline" width="453" height="453" viewBox="0 0 453 453" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<circle cx="226.5" cy="226.5" r="216.5" strokeWidth="10"/>
+						<circle className={ classNames({ 'waiting': !isCan }) } cx="226.5" cy="226.5" r="216.5" strokeWidth="10"/>
 					</svg>
 					<svg className="moving-outline" width="453" height="453" viewBox="0 0 453 453" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<circle ref={trackRef} cx="226.5" cy="226.5" r="216.5" strokeWidth="10"/>

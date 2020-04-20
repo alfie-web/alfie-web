@@ -11,6 +11,7 @@ const WEATCHERS = [
 		_id: '1',
 		title: 'Дождь',
 		icon: require('./assets/images/rain.svg'),
+		// audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587298862/meditation/test_uvryng.mp3',
 		audio: 'https://res.cloudinary.com/dkbqvhh7f/video/upload/v1587299147/meditation/rain_tozqy9.mp3',
 		// audio: require('./assets/sounds/rain.mp3'),
 		// video: require('./assets/video/rain.mp4')

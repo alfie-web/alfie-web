@@ -52,6 +52,13 @@
 			circle
 				stroke: rgba(255, 255, 255, .1)
 
+			&.waiting
+				circle
+					stroke-dasharray: 25px
+					stroke-dashoffset: 0
+					animation: anim 10s linear infinite
+					transform-origin: center
+
 		.progress-outline
 			circle
 				stroke: rgba(255, 255, 255, .2)
@@ -190,3 +197,10 @@
 					margin-right: 0
 				span
 					display: none
+
+
+@keyframes anim
+	0%
+		transform: rotate(0deg)
+	100%
+		transform: rotate(360deg)
